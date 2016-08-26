@@ -1,0 +1,47 @@
+WinMain
+	设计完整窗口类
+	注册窗口类
+	创建窗口类
+	
+	D3D资源初始化
+
+	窗口的移动，显示，更新
+	
+	DirectInput类初始化
+	
+	消息循环
+
+	窗口类的注销
+
+消息循环
+	
+	if 有消息
+		翻译传递消息
+		处理消息
+	else
+		D3D更新
+		D3D渲染
+处理消息
+	客户区重绘消息
+		Direct3D_Render函数，进行画面的绘制
+		ValidateRect，更新客户区的显示
+	键盘按下消息
+		ESC键
+			DestroyWindow，销毁窗口, 并发送一条WM_DESTROY消息
+	窗口销毁消息 
+		Direct3D_CleanUp函数，清理COM接口对象
+		PostQuitMessage( 0 )，向系统表明有个线程有终止请求。用来响应WM_DESTROY消息
+
+	default:
+		缺省的窗口过程来为应用程序没有处理的窗口消息提供缺省的处理。
+	
+
+D3D更新
+
+
+
+
+D3D渲染
+
+
+
