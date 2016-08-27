@@ -18,30 +18,6 @@
     <ClInclude Include="code\D3DUtil.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="code\AllocateHierarchyClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="code\CameraClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="code\D3DGUIClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="code\DirectInputClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="code\SkyBoxClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="code\SnowParticleClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="code\TerrainClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="code\XFileModelClass.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="code\Character.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -60,32 +36,29 @@
     <ClInclude Include="code\FireBall.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="code\Input.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Camera.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="code\SkyBox.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="code\SnowParticle.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="code\D3DGUI.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="code\AllocateHierarchy.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Terrain.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="code\AllocateHierarchyClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="code\CameraClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="code\D3DGUIClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="code\DirectInputClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="code\SkyBoxClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="code\SnowParticleClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="code\TerrainClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="code\XFileModelClass.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="code\main1.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -105,6 +78,27 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="code\Soldier.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Input.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Camera.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="code\SkyBox.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="code\SnowParticle.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="code\D3DGUI.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="code\AllocateHierarchy.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Terrain.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

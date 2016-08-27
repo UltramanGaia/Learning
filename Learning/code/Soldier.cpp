@@ -7,6 +7,7 @@ static	int	totalDefForSoldier[15] = {0};//各等级总的Def
 Soldier::Soldier(int i)
 {
 	roadNum = i;
+	walkSpeed = 8.0f;
 
 	timeForAttack = -1.0f;
 	timeForComeBackToLife = 30.0f;
@@ -18,7 +19,7 @@ Soldier::Soldier(int i)
 	exp = 0;
 	atk = totalAtkForSoldier[level - 1];
 	def = totalDefForSoldier[level -1];
-
+	
 }
 
 Soldier::~Soldier()
@@ -28,7 +29,7 @@ Soldier::~Soldier()
 
 
 
-void Soldier::Init(LPDIRECT3DDEVICE9	p_d3dDevice, DInputClass * p_Input , TerrainClass * p_Terrain , CameraClass * p_Camera , std::vector<Character * > * p_Character)
+void Soldier::Init(LPDIRECT3DDEVICE9	p_d3dDevice, Input * p_Input , Terrain * p_Terrain , Camera * p_Camera , std::vector<Character * > * p_Character)
 {
 	if(rand()%2 == 0)
 		InitByName(p_d3dDevice ,p_Input,p_Terrain,p_Camera ,p_Character, L"GameMedia\\tiny_4anim - 副本.x","Walk","Jog" ,"Loiter" ,"Wave",-D3DX_PI / 2.0f , D3DX_PI / 2.0f, 0.0f , 1.5f);
@@ -79,6 +80,11 @@ void Soldier::Control(float f_TimeDelta)
 
 	atk = totalAtkForSoldier[level - 1];
 	def = totalDefForSoldier[level -1];
+
+	
+	if(!alive)
+		return;
+
 
 	//到了一个中转站
 	if(D3DXVec3Length(&(targetPosition - position)) < 2 * modalRadius)
@@ -195,11 +201,10 @@ void Soldier::Control(float f_TimeDelta)
 			g_vFireBall[g_vFireBall.size() - 1]->Init(team , id , 500.0f,position ,facing);
 
 		}
-
 		timeForAttack = 3.0f;	
 	}
-
-	Walk();
+	if(!canAttack)
+		Walk();
 }
 
 void Soldier::Update()
@@ -254,6 +259,8 @@ void Soldier::Update()
 
 		}
 	}
+
+
 
 	//设置HP的长度
 	CUSTOMVERTEX *pVertices = NULL;

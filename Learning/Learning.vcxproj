@@ -11,38 +11,36 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="code\AllocateHierarchyClass.h" />
-    <ClInclude Include="code\CameraClass.h" />
+    <ClInclude Include="code\AllocateHierarchy.h" />
+    <ClInclude Include="code\Camera.h" />
     <ClInclude Include="code\Character.h" />
-    <ClInclude Include="code\D3DGUIClass.h" />
+    <ClInclude Include="code\D3DGUI.h" />
     <ClInclude Include="code\D3DUtil.h" />
-    <ClInclude Include="code\DirectInputClass.h" />
+    <ClInclude Include="code\Input.h" />
     <ClInclude Include="code\FireBall.h" />
     <ClInclude Include="code\Hero.h" />
     <ClInclude Include="code\Monster.h" />
-    <ClInclude Include="code\SkyBoxClass.h" />
-    <ClInclude Include="code\SnowParticleClass.h" />
+    <ClInclude Include="code\SkyBox.h" />
+    <ClInclude Include="code\SnowParticle.h" />
     <ClInclude Include="code\Soldier.h" />
-    <ClInclude Include="code\TerrainClass.h" />
+    <ClInclude Include="code\Terrain.h" />
     <ClInclude Include="code\Tower.h" />
-    <ClInclude Include="code\XFileModelClass.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="code\AllocateHierarchyClass.cpp" />
-    <ClCompile Include="code\CameraClass.cpp" />
+    <ClCompile Include="code\AllocateHierarchy.cpp" />
+    <ClCompile Include="code\Camera.cpp" />
     <ClCompile Include="code\Character.cpp" />
-    <ClCompile Include="code\D3DGUIClass.cpp" />
-    <ClCompile Include="code\DirectInputClass.cpp" />
+    <ClCompile Include="code\D3DGUI.cpp" />
+    <ClCompile Include="code\Input.cpp" />
     <ClCompile Include="code\FireBall.cpp" />
     <ClCompile Include="code\Hero.cpp" />
     <ClCompile Include="code\main1.cpp" />
     <ClCompile Include="code\Monster.cpp" />
-    <ClCompile Include="code\SkyBoxClass.cpp" />
-    <ClCompile Include="code\SnowParticleClass.cpp" />
+    <ClCompile Include="code\SkyBox.cpp" />
+    <ClCompile Include="code\SnowParticle.cpp" />
     <ClCompile Include="code\Soldier.cpp" />
-    <ClCompile Include="code\TerrainClass.cpp" />
+    <ClCompile Include="code\Terrain.cpp" />
     <ClCompile Include="code\Tower.cpp" />
-    <ClCompile Include="code\XFileModelClass.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C35A030C-546A-472F-AC9F-01C710105B82}</ProjectGuid>

@@ -38,6 +38,8 @@ void Monster::Control(float f_TimeDelta)
 	atk = totalAtkForMonster[level - 1];
 	def = totalDefForMonster[level -1];
 
+
+
 	bool canAttack  = false , canFollow = false ;
 	float lenCanAttack , lenCanFollow;
 	D3DXVECTOR3 tempTargetPosition = targetPosition;
@@ -131,13 +133,14 @@ void Monster::Control(float f_TimeDelta)
 
 		timeForAttack = 3.0f;	
 	}
-	if(currentAnim != attack)
+	//if(currentAnim != attack)
+	if(!canAttack)
 		Walk();
 
 }
 
 
-void Monster::Init(LPDIRECT3DDEVICE9	p_d3dDevice, DInputClass * p_Input , TerrainClass * p_Terrain , CameraClass * p_Camera , std::vector<Character * > * p_Character)
+void Monster::Init(LPDIRECT3DDEVICE9	p_d3dDevice, Input * p_Input , Terrain * p_Terrain , Camera * p_Camera , std::vector<Character * > * p_Character)
 {
 	InitByName(p_d3dDevice ,p_Input,p_Terrain,p_Camera,p_Character, L"GameMedia\\YaSeWang3.X","idle","idle" ,"idle" ,"idle",-D3DX_PI / 2.0f ,D3DX_PI / 2.0f  , 0.0f ,2.5f);
 	//InitByName(p_d3dDevice ,p_Input,p_Terrain,p_Camera,p_Character, L"Dragon.X","Anim-1","Anim-1" ,"Anim-1" ,"Anim-1",0.0f ,D3DX_PI / 2.0f  , 0.0f ,20.f);

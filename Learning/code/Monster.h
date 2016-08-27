@@ -20,7 +20,7 @@ public:
 	Monster(D3DXVECTOR3 pos);
 	~Monster();
 
-	void Init(LPDIRECT3DDEVICE9	p_d3dDevice, DInputClass * p_Input , TerrainClass * p_Terrain ,CameraClass * p_Camera , std::vector<Character * > * p_Character);
+	void Init(LPDIRECT3DDEVICE9	p_d3dDevice, Input * p_Input , Terrain * p_Terrain ,Camera * p_Camera , std::vector<Character * > * p_Character);
 	void Control(float f_TimeDelta);
 	void Update();
 	void Draw();

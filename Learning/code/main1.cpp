@@ -46,14 +46,13 @@
 #include <tchar.h>
 #include <time.h> 
 #include <vector>
-#include "DirectInputClass.h"											//获取输入信息的类
-#include "CameraClass.h"												//虚拟摄像机的类
-#include "TerrainClass.h"												//地形的类
-#include "SkyBoxClass.h"												//天空的类
-#include "SnowParticleClass.h"											//雪花粒子的类
-#include "XFileModelClass.h"											//载入.x文件的类
-#include "AllocateHierarchyClass.h"										//骨骼动画的类
-#include "D3DGUIClass.h"												//GUI界面的
+#include "Input.h"											//获取输入信息的类
+#include "Camera.h"												//虚拟摄像机的类
+#include "Terrain.h"												//地形的类
+#include "SkyBox.h"												//天空的类
+#include "SnowParticle.h"											//雪花粒子的类
+#include "AllocateHierarchy.h"										//骨骼动画的类
+#include "D3DGUI.h"												//GUI界面的
 #include "D3DUtil.h"
 #include "Character.h"
 #include "FireBall.h"
@@ -114,15 +113,11 @@ wchar_t									g_strFPS[50]			={0};				//储存显示帧速率的字符数组
 wchar_t									g_strAdapterName[60]	={0};				//储存显示显卡名称的字符数组
 D3DXMATRIX								g_matWorld;									//世界矩阵
 D3DLIGHT9								g_Light;									//全局光照
-DInputClass*							g_pDInput				= NULL;				//DInputClass类的指针
-CameraClass*							g_pCamera				= NULL;				//摄像机类的指针
-TerrainClass*							g_pTerrain				= NULL;				//地形类的指针
-SkyBoxClass*							g_pSkyBox=NULL;								//天空盒类的指针
-SnowParticleClass*						g_pSnowParticles		= NULL;				//雪花粒子系统的指针
-XFileModelClass*						g_pXFileModel1			= NULL;				//模型类对象
-XFileModelClass*						g_pXFileModel2			= NULL;			
-XFileModelClass*	     				g_pXFileModel3			= NULL;		
-XFileModelClass*						g_pXFileModel4			= NULL;	
+Input*							g_pDInput				= NULL;				//Input类的指针
+Camera*							g_pCamera				= NULL;				//摄像机类的指针
+Terrain*							g_pTerrain				= NULL;				//地形类的指针
+SkyBox*							g_pSkyBox=NULL;								//天空盒类的指针
+SnowParticle*						g_pSnowParticles		= NULL;				//雪花粒子系统的指针
 
 //四个和骨骼动画相关的全局变量
 LPD3DXFRAME								g_pFrameRoot			= NULL;
@@ -139,11 +134,11 @@ int										g_MouseX				= 0;
 int										g_MouseY				= 0;				//鼠标坐标
 
 //创建全局GUI类对象
-D3DGUIClass	*							g_MenuGUI				= NULL;				//菜单界面
-D3DGUIClass	*							g_LocalLoadGUI			= NULL;				//单人游戏加载界面
-D3DGUIClass	*							g_ConnectGUI			= NULL;				//多人游戏连接界面
-D3DGUIClass	*							g_OnlineLoadGUI			= NULL;				//多人游戏加载界面
-D3DGUIClass	*							g_OptionGUI				= NULL;				//游戏选项界面
+D3DGUI	*							g_MenuGUI				= NULL;				//菜单界面
+D3DGUI	*							g_LocalLoadGUI			= NULL;				//单人游戏加载界面
+D3DGUI	*							g_ConnectGUI			= NULL;				//多人游戏连接界面
+D3DGUI	*							g_OnlineLoadGUI			= NULL;				//多人游戏加载界面
+D3DGUI	*							g_OptionGUI				= NULL;				//游戏选项界面
 
 int										g_MenuGUIFontID			= -1;				//GUI中字体对象的ID
 int										g_LocalLoadGUIFontID	= -1;
@@ -152,6 +147,8 @@ int										g_OnlineLoadGUIFontID	= -1;
 int										g_OptionGUIFontID		= -1;
 
 int										g_currentGUI			= GUI_MENU;			//当前的GUI
+
+int										g_win                   = -1;
 
 
 //-----------------------------------【全局函数声明部分】-------------------------------------
@@ -223,9 +220,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine,
 	}
 	g_isGuiInit = true;
 
-//	PlaySound(L"GameMedia\\AssassinsCreedTheme刺客信条.wav", NULL, SND_FILENAME | SND_ASYNC|SND_LOOP);   //循环播放背景音乐
-	mciSendString(L"play Background repeat", NULL, 0, NULL);
-	
+	//PlaySound(L"GameMedia\\AssassinsCreedTheme刺客信条.wav", NULL, SND_FILENAME | SND_ASYNC|SND_LOOP);   //循环播放背景音乐
+	PlaySound(L"GameMedia\\背景.wav", NULL, SND_FILENAME | SND_ASYNC|SND_LOOP);   //循环播放背景音乐
+	//mciSendString(L"play Background repeat", NULL, 0, NULL);
+
 	if(!g_isFullscreen)
 	{
 		MoveWindow(hwnd,winPosX,winPosY,WINDOW_WIDTH,WINDOW_HEIGHT,true);   //调整窗口位置
@@ -234,9 +232,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine,
 	UpdateWindow(hwnd);												//对窗口进行更新
 
 	//进行DirectInput类的初始化
-	g_pDInput = new DInputClass();
+	g_pDInput = new Input();
 	g_pDInput->Init(hwnd,hInstance,DISCL_FOREGROUND | DISCL_NONEXCLUSIVE,DISCL_FOREGROUND | DISCL_NONEXCLUSIVE); //前台，非独占模式
-
 
 	//消息循环过程
 	MainMsgLoop(hwnd);
@@ -306,9 +303,13 @@ void MainMsgLoop(HWND hwnd)
 HRESULT Direct3D_Init(HWND hwnd,HINSTANCE hInstance)
 {
 	//加载音乐资源
-	 mciSendString(L"open GameMedia\\AssassinsCreedTheme刺客信条.wav alias Background", NULL, 0, NULL);
-	 mciSendString(L"open GameMedia\\火球.mp3 alias Fight", NULL, 0, NULL);
-	 mciSendString(L"open GameMedia\\炸弹爆炸.wav alias Hit", NULL, 0, NULL);
+	//mciSendString(L"open GameMedia\\AssassinsCreedTheme刺客信条.wav alias Background", NULL, 0, NULL);
+	//mciSendString(L"open 背景.wav alias Background", NULL, 0, NULL);
+	mciSendString(L"open GameMedia\\火球.mp3 alias Fight", NULL, 0, NULL);
+	mciSendString(L"open GameMedia\\炸弹爆炸.wav alias Hit", NULL, 0, NULL);
+	mciSendString(L"open GameMedia\\点击.mp3 alias Click", NULL, 0, NULL);
+	mciSendString(L"open GameMedia\\胜利.wav alias Victory", NULL, 0, NULL);
+	mciSendString(L"open GameMedia\\失败.wav alias Defeate", NULL, 0, NULL);
 
 	LPDIRECT3D9  pD3D = NULL; //Direct3D接口对象的创建
 	if( NULL == ( pD3D = Direct3DCreate9( D3D_SDK_VERSION ) ) ) //初始化Direct3D接口对象，并进行DirectX版本协调
@@ -375,7 +376,7 @@ bool ObjectsForGui_Init()
 		OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, 0, _T("Calibri"), &g_pTextFPS);
 	D3DXCreateFont(g_pd3dDevice, 20, 0, 1000, 0, false, DEFAULT_CHARSET, 
 		OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, 0, L"华文中宋", &g_pTextAdaperName); 
-	D3DXCreateFont(g_pd3dDevice, 23, 0, 1000, 0, false, DEFAULT_CHARSET, 
+	D3DXCreateFont(g_pd3dDevice, 40, 0, 1000, 0, false, DEFAULT_CHARSET, 
 		OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, 0, L"微软雅黑", &g_pTextHelper); 
 	D3DXCreateFont(g_pd3dDevice, 26, 0, 1000, 0, false, DEFAULT_CHARSET, 
 		OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, 0, L"黑体", &g_pTextInfor); 
@@ -390,11 +391,11 @@ bool ObjectsForGui_Init()
 	//--------------------------------------------------【GUI系统相关代码】-------------------------------------------------------
 
 	// 创建GUI系统
-	g_MenuGUI = new D3DGUIClass(g_pd3dDevice, WINDOW_WIDTH, WINDOW_HEIGHT);			//菜单界面
-	g_LocalLoadGUI = new D3DGUIClass(g_pd3dDevice, WINDOW_WIDTH, WINDOW_HEIGHT);	//单人游戏加载界面
-	g_ConnectGUI = new D3DGUIClass(g_pd3dDevice, WINDOW_WIDTH, WINDOW_HEIGHT);		//多人游戏连接界面
-	g_OnlineLoadGUI = new D3DGUIClass(g_pd3dDevice, WINDOW_WIDTH, WINDOW_HEIGHT);	//多人游戏加载界面
-	g_OptionGUI = new D3DGUIClass(g_pd3dDevice, WINDOW_WIDTH, WINDOW_HEIGHT);		//游戏选项界面
+	g_MenuGUI = new D3DGUI(g_pd3dDevice, WINDOW_WIDTH, WINDOW_HEIGHT);			//菜单界面
+	g_LocalLoadGUI = new D3DGUI(g_pd3dDevice, WINDOW_WIDTH, WINDOW_HEIGHT);	//单人游戏加载界面
+	g_ConnectGUI = new D3DGUI(g_pd3dDevice, WINDOW_WIDTH, WINDOW_HEIGHT);		//多人游戏连接界面
+	g_OnlineLoadGUI = new D3DGUI(g_pd3dDevice, WINDOW_WIDTH, WINDOW_HEIGHT);	//多人游戏加载界面
+	g_OptionGUI = new D3DGUI(g_pd3dDevice, WINDOW_WIDTH, WINDOW_HEIGHT);		//游戏选项界面
 
 	// 分别添加背景图
 	if(!g_MenuGUI->AddBackground(L"GameMedia/GameMenu.jpg")) return false;  
@@ -435,7 +436,7 @@ bool ObjectsForGui_Init()
 	//------------------------【LocalLoad界面布局】------------------------
 	// 添加静态文本
 	if(!g_LocalLoadGUI->AddStaticText(STATIC_TEXT_ID, L"选择英雄",
-		200,  WINDOW_HEIGHT / 2, D3DCOLOR_XRGB(55,155,255), g_LocalLoadGUIFontID)) return false;
+		250,  WINDOW_HEIGHT - 400 ,D3DCOLOR_XRGB(55,155,255), g_LocalLoadGUIFontID)) return false;
 	// 添加按钮
 	if(!g_LocalLoadGUI->AddButton(BUTTON_SELECT_MOSHOU_ID, 100,  WINDOW_HEIGHT - 300 , L"GameMedia\\moshouUp.png", L"GameMedia\\moshouOver.png",
 		L"GameMedia\\moshouDown.png")) return false;
@@ -485,7 +486,7 @@ bool ObjectsFor3D_Init()
 	//--------------------------------------------------【游戏相关代码】-------------------------------------------------------
 
 	//创建 初始化地形
-	g_pTerrain = new TerrainClass(g_pd3dDevice);
+	g_pTerrain = new Terrain(g_pd3dDevice);
 	g_pTerrain->LoadTerrainFromFile(L"GameMedia\\hightMap.raw", L"GameMedia\\贴图.png");//从文件加载高度图和纹理
 	g_pTerrain->InitTerrain(200, 200, 100.0f, 10.0f, 1.0f,1.0f);  //四个值分别是顶点行数，顶点列数，顶点间间距，高度图缩放系数,横，竖用多少张纹理图贴图
 
@@ -502,7 +503,7 @@ bool ObjectsFor3D_Init()
 	g_pd3dDevice->SetRenderState(D3DRS_SPECULARENABLE, true);
 
 	// 创建并初始化虚拟摄像机
-	g_pCamera = new CameraClass(g_pd3dDevice);
+	g_pCamera = new Camera(g_pd3dDevice);
 	g_pCamera->SetCameraPosition(&D3DXVECTOR3(0.0f, 300.0f, -800.0f));  //设置摄像机所在的位置
 	g_pCamera->SetTargetPosition(&D3DXVECTOR3(0.0f, 400.0f, 0.0f));  //设置目标观察点所在的位置
 	g_pCamera->SetViewMatrix();  //设置取景变换矩阵
@@ -511,12 +512,12 @@ bool ObjectsFor3D_Init()
 	g_pCamera->SetProjMatrix(&matProj);
 
 	//创建并初始化天空对象
-	g_pSkyBox = new SkyBoxClass( g_pd3dDevice );
+	g_pSkyBox = new SkyBox( g_pd3dDevice );
 	g_pSkyBox->LoadSkyTextureFromFile(L"GameMedia\\SunSetFront2048.png",L"GameMedia\\SunSetBack2048.png",L"GameMedia\\SunSetRight2048.png",L"GameMedia\\SunSetLeft2048.png", L"GameMedia\\SunSetUp2048.png");//从文件加载前、后、左、右、顶面5个面的纹理图
 	g_pSkyBox->InitSkyBox(50000);  //设置天空盒的边长
 
 	//创建并初始化雪花粒子系统  
-	g_pSnowParticles = new SnowParticleClass(g_pd3dDevice);  
+	g_pSnowParticles = new SnowParticle(g_pd3dDevice);  
 	g_pSnowParticles->InitSnowParticle();  
 
 
@@ -698,6 +699,8 @@ LRESULT CALLBACK WndProc( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam 
 //--------------------------------------------------------------------------------------------------
 void GUICallback(int id, int state)
 {
+	if(state == UGP_BUTTON_DOWN)
+		mciSendString(L"play Click from 0",NULL,0,NULL);
 	switch(id)
 	{
 	case BUTTON_LOCAL_ID:   //单人游戏按钮
@@ -849,7 +852,7 @@ void	Direct3D_Update( HWND hwnd,float fTimeDelta)
 	if(!g_pDInput->IsKeyDown(DIK_SPACE))
 	{
 		D3DXVECTOR3 vCharPos;
-		//	g_vCharacter[0]->getPosition(&vCharPos);
+		//g_vCharacter[0]->getPosition(&vCharPos);
 		g_vCharacter[g_userIndex]->getPosition(&vCharPos);
 		g_pCamera->FollowPosition(&vCharPos);
 	}
@@ -898,6 +901,36 @@ void	Direct3D_Update( HWND hwnd,float fTimeDelta)
 		(*it1)->Update(fTimeDelta);
 	}
 
+	bool red = false , blue =false;
+
+	for(it = g_vCharacter.begin();it != g_vCharacter.end();it++)
+	{
+		if((*it)->species == 1)
+		{
+			if((*it)->alive)
+			{
+				if((*it)->team == (Team)1)
+					blue = true;
+				else if((*it)->team == (Team)0)
+					red = true;
+			}
+		}
+	}
+
+	if(red && !blue)
+	{
+		g_win = 0;
+		g_currentGUI = GUI_MENU;
+	//	mciSendString(L"stop Background",NULL,0,NULL);
+		mciSendString(L"play Victory from 0", NULL , 0 , NULL);
+	}
+	if(!red && blue)
+	{
+		g_win = 1;
+		g_currentGUI = GUI_MENU;
+	//	mciSendString(L"stop Background",NULL,0,NULL);
+		mciSendString(L"play Defeate from 0", NULL , 0 , NULL);
+	}
 
 }
 
@@ -914,6 +947,9 @@ void  judge(FireBall * ball)
 			continue;
 		if(ball->m_team  == g_vCharacter[i]->team)
 			continue;
+		if(!g_vCharacter[i]->alive)
+			continue;
+
 		if(D3DXVec3Length(&(ball->position - g_vCharacter[i]->position)) < ball->BallRadius + g_vCharacter[i]->modalRadius )
 		{
 			hit = true;
@@ -922,7 +958,15 @@ void  judge(FireBall * ball)
 			if(g_vCharacter[i]->hp <= 0)
 			{
 				g_vCharacter[i]->alive = false;
-				g_vCharacter[i]->timeForComeBackToLife = g_vCharacter[i]->level * 5.0f;
+				switch(g_vCharacter[i]->species)
+				{
+				case 0:
+					g_vCharacter[i]->timeForComeBackToLife = g_vCharacter[i]->level * 5.0f;
+				case 2:
+					g_vCharacter[i]->timeForComeBackToLife = g_vCharacter[i]->level * 4.0f;
+				case 3:
+					g_vCharacter[i]->timeForComeBackToLife = g_vCharacter[i]->level * 10.0f;
+				}
 				g_vCharacter[ball->index]->exp += totalExp[g_vCharacter[i]->level - 1] / 2;
 				if(g_vCharacter[ball->index]->exp > totalExp[g_vCharacter[ball->index]->level - 1])
 				{
@@ -1012,7 +1056,7 @@ void Direct3D_GUI_Render(HWND hwnd,float fTimeDelta)
 void Direct3D_Render(HWND hwnd,float fTimeDelta)
 {
 	//清屏操作
-	g_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET|D3DCLEAR_ZBUFFER|D3DCLEAR_STENCIL, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
+	g_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET|D3DCLEAR_ZBUFFER|D3DCLEAR_STENCIL, D3DCOLOR_XRGB(100, 155, 255), 1.0f, 0);
 
 	//开始绘制
 	g_pd3dDevice->BeginScene();
@@ -1061,8 +1105,8 @@ void Direct3D_Render(HWND hwnd,float fTimeDelta)
 	g_pSkyBox->RenderSkyBox(&matSky, false);
 
 	//-----------------------------【绘制雪花粒子系统】------------------------
-//	g_pSnowParticles->UpdateSnowParticle(fTimeDelta);
-//	g_pSnowParticles->RenderSnowParticle();
+		g_pSnowParticles->UpdateSnowParticle(fTimeDelta);
+		g_pSnowParticles->RenderSnowParticle();
 
 	//-----------------------------【绘制文字信息】-----------------------------
 	HelpText_Render(hwnd);
@@ -1121,10 +1165,10 @@ void HelpText_Render(HWND hwnd)
 				   vUp.x , vUp.y ,vUp.z,
 				   vLook.x , vLook.y , vLook.z);
 
-	g_pTextInfor->DrawTextA(NULL,info,-1,&formatRect , DT_BOTTOM|DT_LEFT ,D3DXCOLOR(1.0f,0.5f,0.0f,1.0f));
+	g_pTextInfor->DrawTextA(NULL,info,-1,&formatRect , DT_BOTTOM|DT_LEFT ,D3DXCOLOR(255.0f,255.0f,255.0,1.0f));
 
 	//动画轨道信息
-	D3DXVECTOR3 heroPos , tarPos;
+/*	D3DXVECTOR3 heroPos , tarPos;
 	g_vCharacter[g_userIndex]->getPosition(&heroPos);
 	g_vCharacter[g_userIndex]->getTargetPosition(&tarPos);
 	char cTrack[500];
@@ -1150,6 +1194,26 @@ void HelpText_Render(HWND hwnd)
 						 );
 
 	g_pTextHelper ->DrawTextA(NULL,cTrack,-1,&formatRect , DT_BOTTOM|DT_RIGHT ,D3DXCOLOR(1.0f,0.5f,0.0f,1.0f));
+*/
+	formatRect.right -= 50;
+	extern  int totalHpForHero[15];
+	char cTrack[500];
+	if(g_vCharacter.size() > 0)
+		sprintf(cTrack , "Hp:%d/%d.....\n\
+						 转向：...A...,...D.....\n\
+						 行走：........W.........\n\
+						 %s\n\
+						 %s\n\
+						 %f", 
+						 g_vCharacter[g_userIndex]->hp,                                                                                      
+						 totalHpForHero[g_vCharacter[g_userIndex]->level - 1],
+						 g_vCharacter[g_userIndex]->timeForRun > -1.0f &&  g_vCharacter[g_userIndex]->timeForRun < 1.0f  ? "奔跑：LSHIFT + W.":"奔跑：冷却中...........",
+						 g_vCharacter[g_userIndex]->timeForAttack <= 0.0f ? "攻击：.........J..........":"攻击：冷却中..........",
+						 !g_vCharacter[g_userIndex]->alive ? g_vCharacter[g_userIndex]->timeForComeBackToLife :0.0f
+						 );
+
+	g_pTextHelper ->DrawTextA(NULL,cTrack,-1,&formatRect , DT_BOTTOM|DT_RIGHT ,D3DXCOLOR(255.0f,255.0f,255.0f,1.0f));
+
 
 }
 

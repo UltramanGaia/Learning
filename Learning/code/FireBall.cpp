@@ -68,9 +68,9 @@ HRESULT FireBall::Init(int team , int heroindex,float radius,D3DXVECTOR3 pos ,fl
 	m_pVertexBuffer->Unlock();
 
 	//创建3种火球纹理
-	D3DXCreateTextureFromFile( m_pd3dDevice, _T("1.bmp"), &m_pTexture[0] );
-	D3DXCreateTextureFromFile( m_pd3dDevice, _T("2.bmp"), &m_pTexture[1] );
-	D3DXCreateTextureFromFile( m_pd3dDevice, _T("3.bmp"), &m_pTexture[2] );
+	D3DXCreateTextureFromFile( m_pd3dDevice, _T("GameMedia\\1.bmp"), &m_pTexture[0] );
+	D3DXCreateTextureFromFile( m_pd3dDevice, _T("GameMedia\\2.bmp"), &m_pTexture[1] );
+	D3DXCreateTextureFromFile( m_pd3dDevice, _T("GameMedia\\3.bmp"), &m_pTexture[2] );
 
 	return S_OK;
 }

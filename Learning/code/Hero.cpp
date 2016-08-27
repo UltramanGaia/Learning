@@ -1,6 +1,6 @@
 #include "Character.h"
 #include "Hero.h"
-static	int	totalHpForHero[15] =  {616,700,784,869,953,1037,1121,1205,1289,1373,1457,1541,1625,1709,1793};//各等级总的HP
+int	totalHpForHero[15] =  {616,700,784,869,953,1037,1121,1205,1289,1373,1457,1541,1625,1709,1793};//各等级总的HP
 static	int	totalAtkForHero[15] = {57,62,67,72,77,82,87,92,97,102,107,112,117,122,127};//各等级总的Atk
 static	int	totalDefForHero[15] = {0};//各等级总的Def
 Hero::Hero(int modal)
@@ -24,7 +24,7 @@ Hero::~Hero()
 
 
 
-void Hero::Init(LPDIRECT3DDEVICE9	p_d3dDevice, DInputClass * p_Input , TerrainClass * p_Terrain ,CameraClass * p_Camera, std::vector<Character * > * p_Character)
+void Hero::Init(LPDIRECT3DDEVICE9	p_d3dDevice, Input * p_Input , Terrain * p_Terrain ,Camera * p_Camera, std::vector<Character * > * p_Character)
 {
 	if(heroModal == TINY)
 		InitByName(p_d3dDevice ,p_Input,p_Terrain,p_Camera ,p_Character, L"GameMedia\\tiny_4anim - 副本.x","Walk","Jog" ,"Loiter" ,"Wave",-D3DX_PI / 2.0f , D3DX_PI / 2.0f, 0.0f , 2.0f);
@@ -39,6 +39,11 @@ void Hero::Control(float f_TimeDelta)
 
 	atk = totalAtkForHero[level - 1];
 	def = totalDefForHero[level -1];
+
+
+	if(!alive)
+		return;
+
 
 	if(userControl)
 		UserControl();
@@ -78,7 +83,7 @@ void Hero::UserControl()
 		}
 
 
-		timeForAttack = 3.0f;
+		timeForAttack = 1.0f;
 	}
 	else if (pInput->IsKeyDown(DIK_W))
 	{
@@ -98,7 +103,10 @@ void Hero::UserControl()
 	}
 	else
 	{
-		Idle();
+		if(currentAnim == attack)
+			Attack();
+		else
+			Idle();
 	}
 
 	if (pInput->IsKeyDown(DIK_A))
@@ -215,8 +223,8 @@ void Hero::AutoControl()
 	setFacing(facing + turnSpeed);
 	}
 	*/
-
-	Walk();
+	if(!canAttack)
+		Walk();
 
 }
 

@@ -7,7 +7,7 @@ static	int	totalDefForTower[15] = {0};//各等级总的Def
 Tower::Tower()
 {
 	timeForAttack = -1.0f;
-	attackRadius = 1000;
+	attackRadius = 2000;
 	hp = totalHpForTower[level - 1];
 	exp = 0;
 	atk = totalAtkForTower[level - 1];
@@ -21,7 +21,7 @@ Tower::~Tower()
 
 
 
-void Tower::Init(LPDIRECT3DDEVICE9	p_d3dDevice, DInputClass * p_Input , TerrainClass * p_Terrain , CameraClass * p_Camera , std::vector<Character * > * p_Character)
+void Tower::Init(LPDIRECT3DDEVICE9	p_d3dDevice, Input * p_Input , Terrain * p_Terrain , Camera * p_Camera , std::vector<Character * > * p_Character)
 {
 	//InitByName(p_d3dDevice ,p_Input,p_Terrain,p_Camera,p_Character, L"tower3.X","idle","idle" ,"idle" ,"idle",-D3DX_PI / 2.0f ,D3DX_PI / 2.0f  , 0.0f ,2.5f);
 	InitByName(p_d3dDevice ,p_Input,p_Terrain,p_Camera,p_Character, L"GameMedia\\tower11.X","idle","idle" ,"idle" ,"idle",-D3DX_PI / 2.0f ,D3DX_PI / 2.0f  , 0.0f ,0.1f);
@@ -35,6 +35,9 @@ void Tower::Control(float f_TimeDelta)
 
 	atk = totalAtkForTower[level - 1];
 	def = totalDefForTower[level -1];
+
+	if(!alive)
+		return;
 
 	bool canAttack  = false ;
 	float lenCanAttack ;
@@ -55,18 +58,36 @@ void Tower::Control(float f_TimeDelta)
 		}
 	}
 
+	D3DXVECTOR3 vDiff;
+	D3DXVec3Subtract( &vDiff, &tempTargetPosition, &position );
+	D3DXVec3Normalize( &vDiff, &vDiff );
+
+	if( vDiff.z == 0.f )
+	{
+		if( vDiff.x > 0.f )
+			facingTarget = 0.0f;
+		else
+			facingTarget = D3DX_PI;
+	}
+	else if( vDiff.z > 0.f )
+		facingTarget = acosf( vDiff.x );
+	else
+		facingTarget = acosf( - vDiff.x ) + D3DX_PI;
+	while(facingTarget > 2 * D3DX_PI)
+		facingTarget -= 2 * D3DX_PI;
+	while(facingTarget < 0)
+		facingTarget += 2 * D3DX_PI;
 
 	if(canAttack && timeForAttack <= 0.0f)
 	{
 		Attack();
-
 
 		bool ok = false;
 		for(int i = 0 ;  i < g_vFireBall.size() ; i ++)
 		{
 			if(g_vFireBall[i]->isDestroy)
 			{
-				g_vFireBall[i]->Init(team , id , 500.0f,position ,facing);
+				g_vFireBall[i]->Init(team , id , 500.0f,position ,facingTarget);
 				ok = true;
 				break;
 			}
@@ -76,7 +97,7 @@ void Tower::Control(float f_TimeDelta)
 			FireBall * temp = new FireBall(pd3dDevice);
 			g_vFireBall.push_back(temp);
 
-			g_vFireBall[g_vFireBall.size() - 1]->Init(team , id , 500.0f,position ,facing);
+			g_vFireBall[g_vFireBall.size() - 1]->Init(team , id , 500.0f,position ,facingTarget);
 
 		}
 
@@ -140,10 +161,6 @@ void Tower::Update()
 	//更新时间
 	prvTime = curTime;
 	curTime = prvTime + fTimeDelta ; 
-
-
-
-
 
 }
 

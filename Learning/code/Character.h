@@ -1,10 +1,10 @@
 #pragma once
 #include <d3d9.h>
 #include <d3dx9.h>
-#include "AllocateHierarchyClass.h"										//¹Ç÷À¶¯»­µÄÀà
-#include "DirectInputClass.h"
-#include "TerrainClass.h"
-#include "CameraClass.h"
+#include "AllocateHierarchy.h"										//¹Ç÷À¶¯»­µÄÀà
+#include "Input.h"
+#include "Terrain.h"
+#include "Camera.h"
 #include "Character.h"
 #include <vector>
 #include "FireBall.h"
@@ -29,9 +29,9 @@ class Character
 {
 public:
 	LPDIRECT3DDEVICE9						pd3dDevice;
-	DInputClass *							pInput;
-	TerrainClass *							pTerrain;
-	CameraClass *                           pCamera;
+	Input *							pInput;
+	Terrain *							pTerrain;
+	Camera *                           pCamera;
 
 	std::vector<Character * > *				pCharacter;
 
@@ -96,6 +96,8 @@ public:
 	float									attackRadius;//¹¥»÷°ë¾¶
 
 	float									timeForComeBackToLife;
+	float									timeForAttack;
+	float									timeForRun;
 
 public:
 	Character();
@@ -125,9 +127,9 @@ public:
 	DWORD GetAnimIndex( char sString[] );
 
 
-	virtual void Character::Init(LPDIRECT3DDEVICE9	p_d3dDevice, DInputClass * p_Input , TerrainClass * p_Terrain , CameraClass * p_Camera , std::vector<Character * > * p_Character);
+	virtual void Character::Init(LPDIRECT3DDEVICE9	p_d3dDevice, Input * p_Input , Terrain * p_Terrain , Camera * p_Camera , std::vector<Character * > * p_Character);
 
-	void InitByName(LPDIRECT3DDEVICE9	p_d3dDevice, DInputClass * p_Input , TerrainClass * p_Terrain ,CameraClass * p_Camera, std::vector<Character * > * p_Character  ,LPCWSTR filename , char * walkAnim ,char * runAnim ,char * idleAnim ,char * attackAnim, float xRotation ,float yRotation , float zRotation ,float sca );
+	void InitByName(LPDIRECT3DDEVICE9	p_d3dDevice, Input * p_Input , Terrain * p_Terrain ,Camera * p_Camera, std::vector<Character * > * p_Character  ,LPCWSTR filename , char * walkAnim ,char * runAnim ,char * idleAnim ,char * attackAnim, float xRotation ,float yRotation , float zRotation ,float sca );
 
 
 	virtual void Control(float f_TimeDelta);

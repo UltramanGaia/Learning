@@ -1,5 +1,5 @@
 #include "Character.h"
-#include "DirectInputClass.h"
+#include "Input.h"
 #include <vector>
 
 /*
@@ -153,7 +153,7 @@ int Character::getCurrentAnim()
 	return currentAnim;
 }
 
-void Character::InitByName(LPDIRECT3DDEVICE9	p_d3dDevice, DInputClass * p_Input , TerrainClass * p_Terrain ,CameraClass * p_Camera, std::vector<Character * > * p_Character  ,LPCWSTR filename , char * walkAnim ,char * runAnim ,char * idleAnim ,char * attackAnim, float xRotation ,float yRotation , float zRotation ,float sca )
+void Character::InitByName(LPDIRECT3DDEVICE9	p_d3dDevice, Input * p_Input , Terrain * p_Terrain ,Camera * p_Camera, std::vector<Character * > * p_Character  ,LPCWSTR filename , char * walkAnim ,char * runAnim ,char * idleAnim ,char * attackAnim, float xRotation ,float yRotation , float zRotation ,float sca )
 {
 	pd3dDevice = p_d3dDevice;
 	pInput = p_Input;
@@ -219,13 +219,14 @@ void Character::InitByName(LPDIRECT3DDEVICE9	p_d3dDevice, DInputClass * p_Input 
 
 
 
-void Character::Init(LPDIRECT3DDEVICE9	p_d3dDevice, DInputClass * p_Input , TerrainClass * p_Terrain, CameraClass * p_Camera , std::vector<Character * > * p_Character)
+void Character::Init(LPDIRECT3DDEVICE9	p_d3dDevice, Input * p_Input , Terrain * p_Terrain, Camera * p_Camera , std::vector<Character * > * p_Character)
 {
 
 }
 
 void Character::Update()
 {
+
 
 	//设置HP的长度
 	CUSTOMVERTEX *pVertices = NULL;
@@ -501,6 +502,10 @@ bool Character::BeingBlocked()
 void Character::Control(float f_TimeDelta)
 {
 	fTimeDelta = f_TimeDelta;
+
+	
+	if(!alive)
+		return;
 
 
 	if(userControl)
