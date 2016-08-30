@@ -6,7 +6,7 @@
 
 #pragma once
 #include "D3DUtil.h"
-#define  PARTICLE_NUMBER					1000					//雪花粒子数量
+#define  PARTICLE_NUMBER					1000					//雪花粒子数量,根据实际情况修改
 #define  SNOW_SYSTEM_LENGTH_X				20000					//雪花飞扬区域的长度
 #define  SNOW_SYSTEM_WIDTH_Z				20000					//雪花飞扬区域的宽度
 #define  SNOW_SYSTEM_HEIGHT_Y				20000					//雪花飞扬区域的高度
@@ -47,8 +47,8 @@ private:
 	LPDIRECT3DTEXTURE9				m_pTexture[6];					//雪花纹理数组
 
 public:
-	SnowParticle(LPDIRECT3DDEVICE9 pd3dDevice);				//构造函数
-	~SnowParticle();											//析构函数
+	SnowParticle(LPDIRECT3DDEVICE9 pd3dDevice);						//构造函数
+	~SnowParticle();												//析构函数
 	HRESULT InitSnowParticle();										//粒子系统初始化函数
 	HRESULT UpdateSnowParticle( float fElapsedTime);				//粒子系统更新函数
 	HRESULT RenderSnowParticle( );									//粒子系统渲染函数

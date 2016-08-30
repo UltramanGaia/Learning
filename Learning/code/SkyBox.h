@@ -19,12 +19,12 @@ class SkyBox
 private:
 	LPDIRECT3DDEVICE9				m_pd3dDevice;					//D3D设备对象
 	LPDIRECT3DVERTEXBUFFER9	m_pVertexBuffer;						//顶点缓存对象
-	LPDIRECT3DTEXTURE9			m_pTexture[5];						//5个纹理接口对象
+	LPDIRECT3DTEXTURE9			m_pTexture[5];						//5个纹理接口对象,围成一个不封顶的盒子嘛
 	float										m_Length;			//天空盒边长
 
 public:
-	SkyBox( LPDIRECT3DDEVICE9  pDevice );						//构造函数
-	virtual ~SkyBox(void);										//析构函数
+	SkyBox( LPDIRECT3DDEVICE9  pDevice );							//构造函数
+	virtual ~SkyBox(void);											//析构函数
 
 public:
 	BOOL	InitSkyBox( float Length );								//初始化天空盒函数

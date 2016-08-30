@@ -40,7 +40,8 @@ HRESULT SnowParticle::InitSnowParticle( )
 
 
 	//创建雪花粒子顶点缓存
-	m_pd3dDevice->CreateVertexBuffer( 4*sizeof(POINTVERTEX), 0, 
+	m_pd3dDevice->CreateVertexBuffer( 4*sizeof(POINTVERTEX), 0, //每一片雪花都有四个顶点，
+																//据说新版本的有更方便的点精灵，有空应当涉猎 
 		D3DFVF_POINTVERTEX,D3DPOOL_MANAGED, &m_pVertexBuffer, NULL );
 
 	//填充雪花粒子顶点缓存
@@ -51,11 +52,14 @@ HRESULT SnowParticle::InitSnowParticle( )
 		{  30.0f, 0.0f, 0.0f,   1.0f, 1.0f, }, 
 		{  30.0f, 60.0f, 0.0f,   1.0f, 0.0f, }
 	};
+
 	//加锁
 	void* pVertices;
 	m_pVertexBuffer->Lock( 0, sizeof(vertices), (void**)&pVertices, 0 );
+	
 	//访问
 	memcpy( pVertices, vertices, sizeof(vertices) );
+	
 	//解锁
 	m_pVertexBuffer->Unlock();
 
@@ -83,7 +87,7 @@ HRESULT SnowParticle::UpdateSnowParticle( float fElapsedTime)
 	{
 		m_Snows[i].y -= m_Snows[i].FallSpeed*fElapsedTime;
 
-		//如果雪花粒子落到地面, 重新将其高度设置为最大
+		//如果雪花粒子落到地面, 重新将其高度设置为最大,以营造雪花不断飘下的效果
 		if(m_Snows[i].y<0)
 			m_Snows[i].y = SNOW_SYSTEM_WIDTH_Z;
 		//更改自旋角度

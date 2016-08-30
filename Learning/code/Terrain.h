@@ -41,8 +41,8 @@ private:
     };
 
 public:
-    Terrain(IDirect3DDevice9 *pd3dDevice);						//构造函数
-    virtual ~Terrain(void);									//析构函数
+    Terrain(IDirect3DDevice9 *pd3dDevice);							//构造函数
+    virtual ~Terrain(void);											//析构函数
 
 public:
     BOOL LoadTerrainFromFile(wchar_t *pRawFileName, wchar_t *pTextureFile);		//从文件加载高度图和纹理的函数

@@ -1,37 +1,106 @@
-﻿生成启动时间为 2016/8/27 15:44:39。
+﻿生成启动时间为 2016/8/30 17:57:01。
      1>项目“E:\0MY_CODE\DirectExampl\Learning\Learning\Learning.vcxproj”在节点 2 上(Build 个目标)。
      1>ClCompile:
-         D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt code\main1.cpp
+         D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt code\Camera.cpp code\Character.cpp code\Hero.cpp code\Input.cpp code\Monster.cpp code\SkyBox.cpp code\SnowParticle.cpp code\Soldier.cpp code\Terrain.cpp code\Tower.cpp code\main1.cpp
+         Camera.cpp
+         Character.cpp
+     1>code\Character.cpp(215): warning C4244: “=”: 从“DWORD”转换到“float”，可能丢失数据
+     1>code\Character.cpp(244): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\Character.cpp(245): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\Character.cpp(561): warning C4244: “初始化”: 从“FLOAT”转换到“int”，可能丢失数据
+     1>code\Character.cpp(569): warning C4244: “参数”: 从“int”转换到“FLOAT”，可能丢失数据
+     1>code\Character.cpp(634): warning C4244: “参数”: 从“int”转换到“FLOAT”，可能丢失数据
+         Hero.cpp
+     1>code\Hero.cpp(69): warning C4018: “<”: 有符号/无符号不匹配
+     1>code\Hero.cpp(132): warning C4018: “<”: 有符号/无符号不匹配
+     1>code\Hero.cpp(195): warning C4018: “<”: 有符号/无符号不匹配
+     1>code\Hero.cpp(129): warning C4101: “lenCanFollow”: 未引用的局部变量
+     1>code\Hero.cpp(129): warning C4101: “lenCanAttack”: 未引用的局部变量
+     1>code\Hero.cpp(255): warning C4305: “参数”: 从“double”到“FLOAT”截断
+     1>code\Hero.cpp(259): warning C4305: “参数”: 从“double”到“FLOAT”截断
+     1>code\Hero.cpp(268): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\Hero.cpp(269): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\Hero.cpp(270): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\Hero.cpp(271): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\Hero.cpp(276): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\Hero.cpp(277): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\Hero.cpp(278): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\Hero.cpp(279): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+         Input.cpp
+         Monster.cpp
+     1>code\Monster.cpp(48): warning C4018: “<”: 有符号/无符号不匹配
+     1>code\Monster.cpp(116): warning C4018: “<”: 有符号/无符号不匹配
+     1>code\Monster.cpp(44): warning C4101: “lenCanFollow”: 未引用的局部变量
+     1>code\Monster.cpp(44): warning C4101: “lenCanAttack”: 未引用的局部变量
+     1>code\Monster.cpp(172): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\Monster.cpp(173): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\Monster.cpp(174): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\Monster.cpp(175): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\Monster.cpp(180): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\Monster.cpp(181): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\Monster.cpp(182): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\Monster.cpp(183): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+         SkyBox.cpp
+         SnowParticle.cpp
+         Soldier.cpp
+     1>e:\0my_code\directexampl\learning\learning\code\Soldier.h(6): warning C4305: “参数”: 从“double”到“FLOAT”截断
+     1>e:\0my_code\directexampl\learning\learning\code\Soldier.h(7): warning C4305: “参数”: 从“double”到“FLOAT”截断
+     1>e:\0my_code\directexampl\learning\learning\code\Soldier.h(8): warning C4305: “参数”: 从“double”到“FLOAT”截断
+     1>code\Soldier.cpp(129): warning C4018: “<”: 有符号/无符号不匹配
+     1>code\Soldier.cpp(187): warning C4018: “<”: 有符号/无符号不匹配
+     1>code\Soldier.cpp(126): warning C4101: “lenCanFollow”: 未引用的局部变量
+     1>code\Soldier.cpp(126): warning C4101: “lenCanAttack”: 未引用的局部变量
+     1>code\Soldier.cpp(268): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\Soldier.cpp(269): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\Soldier.cpp(270): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\Soldier.cpp(271): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\Soldier.cpp(276): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\Soldier.cpp(277): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\Soldier.cpp(278): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\Soldier.cpp(279): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+         Terrain.cpp
+     1>code\Terrain.cpp(41): warning C4244: “参数”: 从“std::streamoff”转换到“unsigned int”，可能丢失数据
+         Tower.cpp
+     1>code\Tower.cpp(46): warning C4018: “<”: 有符号/无符号不匹配
+     1>code\Tower.cpp(86): warning C4018: “<”: 有符号/无符号不匹配
+     1>code\Tower.cpp(43): warning C4101: “lenCanAttack”: 未引用的局部变量
+     1>code\Tower.cpp(120): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\Tower.cpp(121): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\Tower.cpp(122): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\Tower.cpp(123): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\Tower.cpp(128): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\Tower.cpp(129): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\Tower.cpp(130): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\Tower.cpp(131): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
          main1.cpp
      1>e:\0my_code\directexampl\learning\learning\code\Soldier.h(6): warning C4305: “参数”: 从“double”到“FLOAT”截断
      1>e:\0my_code\directexampl\learning\learning\code\Soldier.h(7): warning C4305: “参数”: 从“double”到“FLOAT”截断
      1>e:\0my_code\directexampl\learning\learning\code\Soldier.h(8): warning C4305: “参数”: 从“double”到“FLOAT”截断
+     1>code\main1.cpp(413): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\main1.cpp(417): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
      1>code\main1.cpp(420): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
-     1>code\main1.cpp(424): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
-     1>code\main1.cpp(427): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
-     1>code\main1.cpp(430): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
-     1>code\main1.cpp(433): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
-     1>code\main1.cpp(439): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
-     1>code\main1.cpp(442): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
-     1>code\main1.cpp(444): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
-     1>code\main1.cpp(447): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
-     1>code\main1.cpp(453): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\main1.cpp(423): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\main1.cpp(426): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\main1.cpp(432): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\main1.cpp(435): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\main1.cpp(437): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\main1.cpp(440): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\main1.cpp(446): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\main1.cpp(449): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\main1.cpp(451): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
      1>code\main1.cpp(456): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
-     1>code\main1.cpp(458): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
-     1>code\main1.cpp(463): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
-     1>code\main1.cpp(466): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
-     1>code\main1.cpp(471): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
-     1>code\main1.cpp(474): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
-     1>code\main1.cpp(558): warning C4305: “参数”: 从“double”到“FLOAT”截断
-     1>code\main1.cpp(568): warning C4305: “参数”: 从“double”到“FLOAT”截断
-     1>code\main1.cpp(596): warning C4305: “参数”: 从“double”到“FLOAT”截断
-     1>code\main1.cpp(605): warning C4305: “参数”: 从“double”到“FLOAT”截断
-     1>code\main1.cpp(818): warning C4018: “>”: 有符号/无符号不匹配
-     1>code\main1.cpp(831): warning C4018: “<”: 有符号/无符号不匹配
-     1>code\main1.cpp(944): warning C4018: “<”: 有符号/无符号不匹配
-     1>code\main1.cpp(1166): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>code\main1.cpp(459): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\main1.cpp(464): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\main1.cpp(467): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+     1>code\main1.cpp(551): warning C4305: “参数”: 从“double”到“FLOAT”截断
+     1>code\main1.cpp(561): warning C4305: “参数”: 从“double”到“FLOAT”截断
+     1>code\main1.cpp(589): warning C4305: “参数”: 从“double”到“FLOAT”截断
+     1>code\main1.cpp(598): warning C4305: “参数”: 从“double”到“FLOAT”截断
+     1>code\main1.cpp(811): warning C4018: “>”: 有符号/无符号不匹配
+     1>code\main1.cpp(919): warning C4018: “<”: 有符号/无符号不匹配
+     1>code\main1.cpp(1121): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\stdio.h(357) : 参见“sprintf”的声明
-     1>code\main1.cpp(1213): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>code\main1.cpp(1168): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\stdio.h(357) : 参见“sprintf”的声明
        Link:
          D:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\0MY_CODE\DirectExampl\Learning\Release\Learning.exe" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:\0MY_CODE\DirectExampl\Learning\Release\Learning.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\0MY_CODE\DirectExampl\Learning\Release\Learning.lib" /MACHINE:X86 /SAFESEH Release\AllocateHierarchy.obj
@@ -55,4 +124,4 @@
 
 生成成功。
 
-已用时间 00:00:06.91
+已用时间 00:00:13.03

@@ -63,6 +63,72 @@ void Camera::CalculateViewMatrix(D3DXMATRIX *pMatrix)
 	pMatrix->_44 = 1.0f;
 }
 
+//-----------------------------------------------------------------------------
+// Name：GetProjMatrix()
+// Desc: 返回当前投影矩阵
+//-----------------------------------------------------------------------------
+void Camera::GetProjMatrix(D3DXMATRIX *pMatrix)		
+{
+
+	*pMatrix = m_matProj;
+
+}				
+
+//-----------------------------------------------------------------------------
+// Name：GetCameraPosition()
+// Desc: 返回当前摄像机位置矩阵
+//-----------------------------------------------------------------------------
+void Camera::GetCameraPosition(D3DXVECTOR3 *pVector)	
+{
+
+	*pVector = m_vCameraPosition;
+
+}		
+
+//-----------------------------------------------------------------------------
+// Name：GetTargetPosition()
+// Desc: 返回当前目标位置
+//-----------------------------------------------------------------------------
+void Camera::GetTargetPosition(D3DXVECTOR3 *pVector)	
+{
+
+	*pVector = m_vTargetPosition; 
+
+}	
+
+//-----------------------------------------------------------------------------
+// Name：GetRightVrctor()
+// Desc: 返回右方向向量	
+//-----------------------------------------------------------------------------
+void Camera::GetRightVrctor(D3DXVECTOR3 *pVector)		
+{
+
+	*pVector = m_vRightVector;
+
+}			
+
+//-----------------------------------------------------------------------------
+// Name：GetUpVector()
+// Desc: 返回上方向向量	
+//-----------------------------------------------------------------------------
+void Camera::GetUpVector(D3DXVECTOR3 *pVector)			
+{
+
+	*pVector = m_vUpVector;
+
+}				
+
+//-----------------------------------------------------------------------------
+// Name：GetLookVector()
+// Desc: 返回观察方向向量	
+//-----------------------------------------------------------------------------
+void Camera::GetLookVector(D3DXVECTOR3 *pVector)		
+{
+
+	*pVector = m_vLookVector;
+
+}			
+
 
 //-----------------------------------------------------------------------------
 // Name：Camera::SetTargetPosition( )
@@ -124,17 +190,28 @@ void Camera::SetProjMatrix(D3DXMATRIX *pMatrix)
 	m_pd3dDevice->SetTransform(D3DTS_PROJECTION, &m_matProj);		//设置投影变换矩阵
 }
 
-
+//-----------------------------------------------------------------------------
+// Name：Camera::SetRighthVector( )
+// Desc: 设置右方向向量
+//-----------------------------------------------------------------------------
 void Camera::SetRighthVector(D3DXVECTOR3 *vRight)					//设置右方向向量
 {
 	m_vRightVector = *vRight;
 }
 
-
+//-----------------------------------------------------------------------------
+// Name：Camera::SetUpVector( )
+// Desc: 设置上方向向量
+//-----------------------------------------------------------------------------
 void Camera::SetUpVector(D3DXVECTOR3 *vUp)							//设置上方向向量
 {
 	m_vUpVector = *vUp;
 }
+
+//-----------------------------------------------------------------------------
+// Name：Camera::SetLookVector( )
+// Desc: 设置观察方向向量
+//-----------------------------------------------------------------------------
 void Camera::SetLookVector(D3DXVECTOR3 *vLook)						//设置观察方向向量
 {
 	m_vLookVector = *vLook;
@@ -216,6 +293,10 @@ void Camera::RotationLookVec(float fAngle)
 }
 
 
+//-----------------------------------------------------------------------------
+// Name：Camera::FollowPosition( )
+// Desc:  摄像机跟随某个位置的上帝视角
+//-----------------------------------------------------------------------------
 void Camera::FollowPosition(D3DXVECTOR3 *vCharPos)                 // 摄像机跟随某个位置的上帝视角
 {
 

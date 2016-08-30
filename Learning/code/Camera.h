@@ -3,7 +3,6 @@
 //	Des: 实现虚拟摄像机类的头文件
 //=============================================================================
 
-
 #pragma once
 
 #include <d3d9.h>
@@ -23,20 +22,18 @@ private:
 
 public:
     void CalculateViewMatrix(D3DXMATRIX *pMatrix);				//计算取景变换矩阵
-
-    void GetProjMatrix(D3DXMATRIX *pMatrix)			{ *pMatrix = m_matProj; }				//返回当前投影矩阵
-    void GetCameraPosition(D3DXVECTOR3 *pVector)	{ *pVector = m_vCameraPosition; }		//返回当前摄像机位置矩阵
-	void GetTargetPosition(D3DXVECTOR3 *pVector)	{ *pVector = m_vTargetPosition; }		//返回当前目标位置
-	void GetRightVrctor(D3DXVECTOR3 *pVector)		{ *pVector = m_vRightVector; }			//返回右方向向量	
-	void GetUpVector(D3DXVECTOR3 *pVector)			{ *pVector = m_vUpVector; }				//返回上方向向量
-    void GetLookVector(D3DXVECTOR3 *pVector)		{ *pVector = m_vLookVector; }			//返回观察方向向量
+    void GetProjMatrix(D3DXMATRIX *pMatrix);					//返回当前投影矩阵
+    void GetCameraPosition(D3DXVECTOR3 *pVector);				//返回当前摄像机位置矩阵
+	void GetTargetPosition(D3DXVECTOR3 *pVector);				//返回当前目标位置
+	void GetRightVrctor(D3DXVECTOR3 *pVector);					//返回右方向向量	
+	void GetUpVector(D3DXVECTOR3 *pVector);						//返回上方向向量
+    void GetLookVector(D3DXVECTOR3 *pVector);					//返回观察方向向量
 
     void SetTargetPosition(D3DXVECTOR3 *pLookat = NULL);		//设置摄像机的目标观察位置向量
     void SetCameraPosition(D3DXVECTOR3 *pVector = NULL);		//设置摄像机所在的位置向量
 	void SetRighthVector(D3DXVECTOR3 *vRight);					//设置右方向向量
 	void SetUpVector(D3DXVECTOR3 *vUp);							//设置上方向向量
 	void SetLookVector(D3DXVECTOR3 *vLook);						//设置观察方向向量
-
     void SetViewMatrix(D3DXMATRIX *pMatrix = NULL);				//设置取景变换矩阵
     void SetProjMatrix(D3DXMATRIX *pMatrix = NULL);				//设置投影变换矩阵
 

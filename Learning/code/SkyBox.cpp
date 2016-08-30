@@ -28,7 +28,7 @@ BOOL SkyBox::InitSkyBox( float Length )
 	m_Length=Length;
 
 	//1.创建。创建顶点缓存
-	 m_pd3dDevice->CreateVertexBuffer( 20 * sizeof(SKYBOXVERTEX), 0, 
+	 m_pd3dDevice->CreateVertexBuffer( 20 * sizeof(SKYBOXVERTEX), 0,//共20个顶点 
 		D3DFVF_SKYBOX, D3DPOOL_MANAGED, &m_pVertexBuffer, 0 );
 
 	//用一个结构体把顶点数据先准备好
@@ -68,10 +68,13 @@ BOOL SkyBox::InitSkyBox( float Length )
 
 	//准备填充顶点数据
     void* pVertices;
+
 	//2.加锁
     m_pVertexBuffer->Lock( 0, 0, (void**)&pVertices, 0 );
+
 	//3.访问。把结构体中的数据直接拷到顶点缓冲区中
     memcpy( pVertices, vertices, sizeof(vertices) );
+
 	//4.解锁
 	m_pVertexBuffer->Unlock();
 

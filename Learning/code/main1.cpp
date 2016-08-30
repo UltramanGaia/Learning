@@ -47,12 +47,12 @@
 #include <time.h> 
 #include <vector>
 #include "Input.h"											//获取输入信息的类
-#include "Camera.h"												//虚拟摄像机的类
-#include "Terrain.h"												//地形的类
-#include "SkyBox.h"												//天空的类
-#include "SnowParticle.h"											//雪花粒子的类
-#include "AllocateHierarchy.h"										//骨骼动画的类
-#include "D3DGUI.h"												//GUI界面的
+#include "Camera.h"											//虚拟摄像机的类
+#include "Terrain.h"										//地形的类
+#include "SkyBox.h"											//天空的类
+#include "SnowParticle.h"									//雪花粒子的类
+#include "AllocateHierarchy.h"								//骨骼动画的类
+#include "D3DGUI.h"											//GUI界面的类
 #include "D3DUtil.h"
 #include "Character.h"
 #include "FireBall.h"
@@ -86,12 +86,11 @@ CUSTOMVERTEX(float x, float y, float z, float u, float v)
 
 //-----------------------------------【全局变量声明部分】-------------------------------------
 //	描述：全局变量声明
-//------------------------------------------------------------------------------------------------D
+//----------------------------------------------------------------------------------------------
 fstream									g_fOption;
 bool									g_isFullscreen			= false;			//是否全屏
-int										WINDOW_WIDTH			= 1366;				//窗口宽度
-int										WINDOW_HEIGHT			= 768;				//窗口高度
-
+int										WINDOW_WIDTH			= 1366;				//默认窗口宽度
+int										WINDOW_HEIGHT			= 768;				//默认窗口高度
 
 
 vector <Character*>						g_vCharacter;
@@ -107,38 +106,33 @@ LPDIRECT3DDEVICE9						g_pd3dDevice			= NULL;				//Direct3D设备对象
 LPD3DXFONT								g_pTextFPS				= NULL;				//字体COM接口
 LPD3DXFONT								g_pTextAdaperName		= NULL;				//显卡信息的2D文本
 LPD3DXFONT								g_pTextHelper			= NULL;				//帮助信息的2D文本
-LPD3DXFONT								g_pTextInfor			= NULL;				//绘制信息的2D文本
-float									g_FPS					= 0.0f;								//帧速率
+LPD3DXFONT								g_pTextInfor			= NULL;				//摄像机信息的2D文本
+float									g_FPS					= 0.0f;				//帧速率
 wchar_t									g_strFPS[50]			={0};				//储存显示帧速率的字符数组
 wchar_t									g_strAdapterName[60]	={0};				//储存显示显卡名称的字符数组
 D3DXMATRIX								g_matWorld;									//世界矩阵
 D3DLIGHT9								g_Light;									//全局光照
-Input*							g_pDInput				= NULL;				//Input类的指针
-Camera*							g_pCamera				= NULL;				//摄像机类的指针
-Terrain*							g_pTerrain				= NULL;				//地形类的指针
-SkyBox*							g_pSkyBox=NULL;								//天空盒类的指针
-SnowParticle*						g_pSnowParticles		= NULL;				//雪花粒子系统的指针
+Input*									g_pDInput				= NULL;				//Input类的指针
+Camera*									g_pCamera				= NULL;				//摄像机类的指针
+Terrain*								g_pTerrain				= NULL;				//地形类的指针
+SkyBox*									g_pSkyBox=NULL;								//天空盒类的指针
+SnowParticle*							g_pSnowParticles		= NULL;				//雪花粒子系统的指针
 
-//四个和骨骼动画相关的全局变量
+//和骨骼动画相关的全局变量
 LPD3DXFRAME								g_pFrameRoot			= NULL;
-//D3DXMATRIX*								g_pBoneMatrices			= NULL;
 CAllocateHierarchy*						g_pAllocateHier			= NULL;
 LPD3DXANIMATIONCONTROLLER				g_pAnimController		= NULL;
-
-//LPDIRECT3DVERTEXBUFFER9					g_pHPVBuffer			= NULL;    // HP顶点缓存对象
-//LPDIRECT3DTEXTURE9						g_pHPTexture			= NULL;    // HP纹理对象
-
 
 bool									g_LMBDown				= false;			// GUI中，鼠标左键是否按下
 int										g_MouseX				= 0;
 int										g_MouseY				= 0;				//鼠标坐标
 
 //创建全局GUI类对象
-D3DGUI	*							g_MenuGUI				= NULL;				//菜单界面
-D3DGUI	*							g_LocalLoadGUI			= NULL;				//单人游戏加载界面
-D3DGUI	*							g_ConnectGUI			= NULL;				//多人游戏连接界面
-D3DGUI	*							g_OnlineLoadGUI			= NULL;				//多人游戏加载界面
-D3DGUI	*							g_OptionGUI				= NULL;				//游戏选项界面
+D3DGUI	*								g_MenuGUI				= NULL;				//菜单界面
+D3DGUI	*								g_LocalLoadGUI			= NULL;				//单人游戏加载界面
+D3DGUI	*								g_ConnectGUI			= NULL;				//多人游戏连接界面
+D3DGUI	*								g_OnlineLoadGUI			= NULL;				//多人游戏加载界面
+D3DGUI	*								g_OptionGUI				= NULL;				//游戏选项界面
 
 int										g_MenuGUIFontID			= -1;				//GUI中字体对象的ID
 int										g_LocalLoadGUIFontID	= -1;
@@ -146,9 +140,9 @@ int										g_ConnectGUIFontID		= -1;
 int										g_OnlineLoadGUIFontID	= -1;
 int										g_OptionGUIFontID		= -1;
 
-int										g_currentGUI			= GUI_MENU;			//当前的GUI
+int										g_currentGUI			= GUI_MENU;			//当前的GUI状态
 
-int										g_win                   = -1;
+int										g_win                   = -1;				//是否胜利了
 
 
 //-----------------------------------【全局函数声明部分】-------------------------------------
@@ -168,7 +162,7 @@ void								HelpText_Render(HWND hwnd);											//显示帮助信息函数
 void								GUICallback(int id, int state);										//GUI界面回调函数
 void								MainMsgLoop(HWND hwnd);												//主消息循环
 
-void								judge(FireBall * ball);															//判断火球撞击物体
+void								judge(FireBall * ball);												//判断火球撞击物体
 
 
 //-----------------------------------【WinMain( )函数】--------------------------------------
@@ -176,7 +170,7 @@ void								judge(FireBall * ball);															//判断火球撞击物体
 //------------------------------------------------------------------------------------------------
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine, int nShowCmd)
 {
-	int winPosX = 300;
+	int winPosX = 300;//默认窗口左上角在屏幕的位置
 	int winPosY = 150;
 
 	g_fOption.open("GameMedia\\option" , ios::in);
@@ -195,7 +189,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine,
 	wndClass.hIcon=(HICON)::LoadImage(NULL,_T("GameMedia\\icon.ico"),IMAGE_ICON,0,0,LR_DEFAULTSIZE|LR_LOADFROMFILE); //从本地加载ico图标
 	wndClass.hCursor = LoadCursor( NULL, IDC_ARROW );			//窗口类的光标句柄。
 	wndClass.hbrBackground=(HBRUSH)GetStockObject(GRAY_BRUSH);  
-	wndClass.lpszMenuName = NULL;								//菜单资源的名字。
+	wndClass.lpszMenuName = NULL;						
 	wndClass.lpszClassName = _T("WindowsClassForGAIA");			//窗口类的名字。
 
 	//注册窗口类
@@ -204,7 +198,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine,
 
 	//创建窗口
 	HWND hwnd = CreateWindow( _T("WindowsClassForGAIA"),WINDOW_TITLE,			
-		WS_POPUP, CW_USEDEFAULT, CW_USEDEFAULT, WINDOW_WIDTH,					//WS_POPUP没有标题栏
+		WS_POPUP, CW_USEDEFAULT, CW_USEDEFAULT, WINDOW_WIDTH,					//WS_POPUP没有标题栏,比较好看
 		WINDOW_HEIGHT, NULL, NULL, hInstance, NULL );
 
 
@@ -212,17 +206,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR lpCmdLine,
 	//Direct3D资源的初始化
 	if (!(S_OK==Direct3D_Init (hwnd,hInstance)))
 	{
-		MessageBox(hwnd, _T("Direct3D资源初始化失败~！"), _T("错误信息窗口"), 0);
+		MessageBox(hwnd, _T("Direct3D资源初始化失败！"), _T("错误信息窗口"), 0);
 	}
 	if(!ObjectsForGui_Init()) 
 	{
-		MessageBox(hwnd, _T("GUI资源初始化失败~！"), _T("错误信息窗口"), 0);
+		MessageBox(hwnd, _T("GUI资源初始化失败！"), _T("错误信息窗口"), 0);
 	}
 	g_isGuiInit = true;
 
-	//PlaySound(L"GameMedia\\AssassinsCreedTheme刺客信条.wav", NULL, SND_FILENAME | SND_ASYNC|SND_LOOP);   //循环播放背景音乐
 	PlaySound(L"GameMedia\\背景.wav", NULL, SND_FILENAME | SND_ASYNC|SND_LOOP);   //循环播放背景音乐
-	//mciSendString(L"play Background repeat", NULL, 0, NULL);
 
 	if(!g_isFullscreen)
 	{
@@ -257,7 +249,7 @@ void MainMsgLoop(HWND hwnd)
 		static float fCurrTime  = (float)::timeGetTime();
 		static float fTimeDelta = 0.0f;
 		fCurrTime  = (float)::timeGetTime();
-		fTimeDelta = (fCurrTime - fLastTime) / 1000.0f;
+		fTimeDelta = (fCurrTime - fLastTime) / 1000.0f;			//一次循环经历的时间
 		fLastTime  = fCurrTime;
 
 		switch(g_currentGamestate)
@@ -276,15 +268,16 @@ void MainMsgLoop(HWND hwnd)
 				}
 			}
 			break;
-		case GAME_LOCAL:
+		case GAME_LOCAL:										//游戏进行时的画面，确保游戏渲染的不会受鼠标不断移动影响，
+			//应该每次循环都进行游戏画面的更新和渲染
 			{
 				if( PeekMessage( &msg, 0, 0, 0, PM_REMOVE ) )   //查看消息队列，有则发送消息
 				{
 					TranslateMessage( &msg );					//将虚拟键消息转换为字符消息
 					DispatchMessage( &msg );					//发送消息给窗口程序。
 				}
-				Direct3D_Update(hwnd,fTimeDelta);			//画面的更新
-				Direct3D_Render(hwnd,fTimeDelta);			//画面的渲染			
+				Direct3D_Update(hwnd,fTimeDelta);				//画面的更新
+				Direct3D_Render(hwnd,fTimeDelta);				//画面的渲染			
 			}
 			break;
 		default:
@@ -302,14 +295,7 @@ void MainMsgLoop(HWND hwnd)
 //------------------------------------------------------------------------------------------------
 HRESULT Direct3D_Init(HWND hwnd,HINSTANCE hInstance)
 {
-	//加载音乐资源
-	//mciSendString(L"open GameMedia\\AssassinsCreedTheme刺客信条.wav alias Background", NULL, 0, NULL);
-	//mciSendString(L"open 背景.wav alias Background", NULL, 0, NULL);
-	mciSendString(L"open GameMedia\\火球.mp3 alias Fight", NULL, 0, NULL);
-	mciSendString(L"open GameMedia\\炸弹爆炸.wav alias Hit", NULL, 0, NULL);
-	mciSendString(L"open GameMedia\\点击.mp3 alias Click", NULL, 0, NULL);
-	mciSendString(L"open GameMedia\\胜利.wav alias Victory", NULL, 0, NULL);
-	mciSendString(L"open GameMedia\\失败.wav alias Defeate", NULL, 0, NULL);
+
 
 	LPDIRECT3D9  pD3D = NULL; //Direct3D接口对象的创建
 	if( NULL == ( pD3D = Direct3DCreate9( D3D_SDK_VERSION ) ) ) //初始化Direct3D接口对象，并进行DirectX版本协调
@@ -371,6 +357,13 @@ HRESULT Direct3D_Init(HWND hwnd,HINSTANCE hInstance)
 //--------------------------------------------------------------------------------------------------
 bool ObjectsForGui_Init()
 {
+	//加载音乐资源
+	mciSendString(L"open GameMedia\\火球.mp3 alias Fight", NULL, 0, NULL);
+	mciSendString(L"open GameMedia\\炸弹爆炸.wav alias Hit", NULL, 0, NULL);
+	mciSendString(L"open GameMedia\\点击.mp3 alias Click", NULL, 0, NULL);
+	mciSendString(L"open GameMedia\\胜利.wav alias Victory", NULL, 0, NULL);
+	mciSendString(L"open GameMedia\\失败.wav alias Defeate", NULL, 0, NULL);
+
 	//创建字体
 	D3DXCreateFont(g_pd3dDevice, 36, 0, 0, 1000, false, DEFAULT_CHARSET, 
 		OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, 0, _T("Calibri"), &g_pTextFPS);
@@ -392,7 +385,7 @@ bool ObjectsForGui_Init()
 
 	// 创建GUI系统
 	g_MenuGUI = new D3DGUI(g_pd3dDevice, WINDOW_WIDTH, WINDOW_HEIGHT);			//菜单界面
-	g_LocalLoadGUI = new D3DGUI(g_pd3dDevice, WINDOW_WIDTH, WINDOW_HEIGHT);	//单人游戏加载界面
+	g_LocalLoadGUI = new D3DGUI(g_pd3dDevice, WINDOW_WIDTH, WINDOW_HEIGHT);		//单人游戏加载界面
 	g_ConnectGUI = new D3DGUI(g_pd3dDevice, WINDOW_WIDTH, WINDOW_HEIGHT);		//多人游戏连接界面
 	g_OnlineLoadGUI = new D3DGUI(g_pd3dDevice, WINDOW_WIDTH, WINDOW_HEIGHT);	//多人游戏加载界面
 	g_OptionGUI = new D3DGUI(g_pd3dDevice, WINDOW_WIDTH, WINDOW_HEIGHT);		//游戏选项界面
@@ -505,8 +498,8 @@ bool ObjectsFor3D_Init()
 	// 创建并初始化虚拟摄像机
 	g_pCamera = new Camera(g_pd3dDevice);
 	g_pCamera->SetCameraPosition(&D3DXVECTOR3(0.0f, 300.0f, -800.0f));  //设置摄像机所在的位置
-	g_pCamera->SetTargetPosition(&D3DXVECTOR3(0.0f, 400.0f, 0.0f));  //设置目标观察点所在的位置
-	g_pCamera->SetViewMatrix();  //设置取景变换矩阵
+	g_pCamera->SetTargetPosition(&D3DXVECTOR3(0.0f, 400.0f, 0.0f));		//设置目标观察点所在的位置
+	g_pCamera->SetViewMatrix();											//设置取景变换矩阵
 	D3DXMATRIX matProj;
 	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4.0f, 1.0f, 1.0f, 200000.0f);
 	g_pCamera->SetProjMatrix(&matProj);
@@ -768,7 +761,7 @@ void GUICallback(int id, int state)
 }
 
 //-----------------------------------【Direct3D_Update( )函数】--------------------------------
-//	描述：各种数据的更新，不是即时渲染代码但是需要即时调用的，如按键后的坐标的更改
+//	描述：各种数据的更新
 //--------------------------------------------------------------------------------------------------
 void	Direct3D_GUI_Update( HWND hwnd,float fTimeDelta)
 {
@@ -778,7 +771,7 @@ void	Direct3D_GUI_Update( HWND hwnd,float fTimeDelta)
 }
 
 //-----------------------------------【Direct3D_Update( )函数】--------------------------------
-//	描述：各种数据的更新，不是即时渲染代码但是需要即时调用的，如按键后的坐标的更改
+//	描述：各种数据的更新
 //--------------------------------------------------------------------------------------------------
 void	Direct3D_Update( HWND hwnd,float fTimeDelta)
 {
@@ -821,38 +814,38 @@ void	Direct3D_Update( HWND hwnd,float fTimeDelta)
 		Sleep(1000);
 
 	}
-
+	/*
 	if(g_pDInput->IsKeyDown(DIK_B))
 	{
-		D3DXVECTOR3 pos;
-		g_vCharacter[g_userIndex]->getPosition(&pos);
+	D3DXVECTOR3 pos;
+	g_vCharacter[g_userIndex]->getPosition(&pos);
 
-		bool ok = false;
-		for(int i = 0 ;  i < g_vFireBall.size() ; i ++)
-		{
-			if(g_vFireBall[i]->isDestroy)
-			{
-				g_vFireBall[i]->Init(g_vCharacter[g_userIndex]->team , g_userIndex , 500.0f,pos ,g_vCharacter[g_userIndex]->facing);
-				ok = true;
-				break;
-			}
-		}
-		if(!ok)
-		{
-			FireBall * temp = new FireBall(g_pd3dDevice);
-			g_vFireBall.push_back(temp);
+	bool ok = false;
+	for(int i = 0 ;  i < g_vFireBall.size() ; i ++)
+	{
+	if(g_vFireBall[i]->isDestroy)
+	{
+	g_vFireBall[i]->Init(g_vCharacter[g_userIndex]->team , g_userIndex , 500.0f,pos ,g_vCharacter[g_userIndex]->facing);
+	ok = true;
+	break;
+	}
+	}
+	if(!ok)
+	{
+	FireBall * temp = new FireBall(g_pd3dDevice);
+	g_vFireBall.push_back(temp);
 
-			g_vFireBall[g_vFireBall.size() - 1]->Init(g_vCharacter[g_userIndex]->team , g_userIndex , 500.0f,pos ,g_vCharacter[g_userIndex]->facing);
+	g_vFireBall[g_vFireBall.size() - 1]->Init(g_vCharacter[g_userIndex]->team , g_userIndex , 500.0f,pos ,g_vCharacter[g_userIndex]->facing);
 
-
-		}
 
 	}
+
+	}
+	*/
 
 	if(!g_pDInput->IsKeyDown(DIK_SPACE))
 	{
 		D3DXVECTOR3 vCharPos;
-		//g_vCharacter[0]->getPosition(&vCharPos);
 		g_vCharacter[g_userIndex]->getPosition(&vCharPos);
 		g_pCamera->FollowPosition(&vCharPos);
 	}
@@ -865,43 +858,25 @@ void	Direct3D_Update( HWND hwnd,float fTimeDelta)
 	//把正确的世界变换矩阵存到g_matWorld中  
 	D3DXMatrixTranslation(&g_matWorld, 0.0f, 0.0f, fPosZ);  
 
-	/*	//限制鼠标光标移动区域
-	POINT lt,rb;
-	RECT rect;
-	GetClientRect(hwnd,&rect);  //取得窗口内部矩形
-	lt.x = rect.left;
-	lt.y = rect.top;
-	rb.x = rect.right;
-	rb.y = rect.bottom;
-	//将lt和rb的窗口坐标转换为屏幕坐标
-	ClientToScreen(hwnd,&lt);
-	ClientToScreen(hwnd,&rb);
-	//以屏幕坐标重新设定矩形区域
-	rect.left = lt.x;
-	rect.top = lt.y;
-	rect.right = rb.x;
-	rect.bottom = rb.y;
-	//限制鼠标光标移动区域
-	ClipCursor(&rect);
-	*/
+
 	while( ShowCursor(false) >= 0);		//隐藏鼠标光标
 
 	srand((unsigned int)timeGetTime());
-	vector<Character * > :: iterator it;
+	vector<Character * > :: iterator it; //控制更新各种角色
 	for(it = g_vCharacter.begin();it != g_vCharacter.end();it++)
 	{
 		(*it)->Control(fTimeDelta );
 		(*it)->Update();
 	}
 
-	vector <FireBall * >:: iterator it1;
+	vector <FireBall * >:: iterator it1;//判断火球是否击中，并更新火球状态
 	for(it1 = g_vFireBall.begin(); it1 != g_vFireBall.end() ;it1++)
 	{
 		judge(*it1);
 		(*it1)->Update(fTimeDelta);
 	}
 
-	bool red = false , blue =false;
+	bool red = false , blue =false;//判断输赢，某一方的三座塔先都被摧毁的输
 
 	for(it = g_vCharacter.begin();it != g_vCharacter.end();it++)
 	{
@@ -921,20 +896,20 @@ void	Direct3D_Update( HWND hwnd,float fTimeDelta)
 	{
 		g_win = 0;
 		g_currentGUI = GUI_MENU;
-	//	mciSendString(L"stop Background",NULL,0,NULL);
 		mciSendString(L"play Victory from 0", NULL , 0 , NULL);
 	}
 	if(!red && blue)
 	{
 		g_win = 1;
 		g_currentGUI = GUI_MENU;
-	//	mciSendString(L"stop Background",NULL,0,NULL);
 		mciSendString(L"play Defeate from 0", NULL , 0 , NULL);
 	}
 
 }
 
-//判断火球撞击物体
+//-----------------------------------【judge(FireBall * ball)函数】-------------------------------
+//	描述：判断火球撞击物体
+//--------------------------------------------------------------------------------------------------
 void  judge(FireBall * ball)
 {
 	if(ball->isDestroy)
@@ -1037,7 +1012,7 @@ void Direct3D_GUI_Render(HWND hwnd,float fTimeDelta)
 	}
 
 	//-----------------------------【绘制文字信息】-----------------------------
-	//	HelpText_Render(hwnd);
+	//	HelpText_Render(hwnd);//GUI中不需要绘制
 
 
 	//结束绘制
@@ -1045,8 +1020,6 @@ void Direct3D_GUI_Render(HWND hwnd,float fTimeDelta)
 
 	//显示翻转
 	g_pd3dDevice->Present(NULL, NULL, NULL, NULL);  
-
-
 
 }
 
@@ -1063,7 +1036,6 @@ void Direct3D_Render(HWND hwnd,float fTimeDelta)
 
 	//正式绘制
 
-
 	//-----------------------------【绘制地形】-----------------------------
 	g_pTerrain->RenderTerrain(&g_matWorld, false);  //渲染地形，且第二个参数设为false，表示不渲染出地形的线框
 
@@ -1075,42 +1047,26 @@ void Direct3D_Render(HWND hwnd,float fTimeDelta)
 		(*it)->Draw();
 	}
 
-	//绘制火球
+	//-----------------------------【绘制火球】------------------------
 	vector <FireBall * >:: iterator it1;
 	for(it1 = g_vFireBall.begin(); it1 != g_vFireBall.end() ;it1++)
 	{
 		(*it1)->Render();
 	}
 
-	/*
-	DrawFrame(g_pd3dDevice, g_pFrameRoot);
-	*/
-	//-----------------------------【绘制地板】-----------------------------
-	//	D3DXMATRIX matFloor;
-	///	D3DXMatrixTranslation(&matFloor, 0.0f, 0.0f, 0.0f);
-	//	g_pd3dDevice->SetTransform(D3DTS_WORLD, &matFloor);
-	//	g_pd3dDevice->SetStreamSource(0, g_pFloorVBuffer, 0, sizeof(CUSTOMVERTEX));
-	//	g_pd3dDevice->SetFVF(D3DFVF_CUSTOMVERTEX);
-	//	g_pd3dDevice->SetTexture(0, g_pFloorTexture);
-	//	g_pd3dDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
-
-
-
-
 	//-----------------------------【绘制天空】-----------------------------
 	D3DXMATRIX matSky,matTransSky,matRotSky;
 	D3DXMatrixTranslation(&matTransSky,0.0f,-13000.0f,0.0f);
-	D3DXMatrixRotationY(&matRotSky, -0.00002f*timeGetTime());   //旋转天空网格, 简单模拟云彩运动效果
+	D3DXMatrixRotationY(&matRotSky, -0.00002f*timeGetTime());   //旋转天空, 简单模拟云彩运动效果
 	matSky=matTransSky*matRotSky;
 	g_pSkyBox->RenderSkyBox(&matSky, false);
 
 	//-----------------------------【绘制雪花粒子系统】------------------------
-		g_pSnowParticles->UpdateSnowParticle(fTimeDelta);
-		g_pSnowParticles->RenderSnowParticle();
+	g_pSnowParticles->UpdateSnowParticle(fTimeDelta);
+	g_pSnowParticles->RenderSnowParticle();
 
 	//-----------------------------【绘制文字信息】-----------------------------
 	HelpText_Render(hwnd);
-
 
 	//结束绘制
 	g_pd3dDevice->EndScene();   
@@ -1140,7 +1096,6 @@ void HelpText_Render(HWND hwnd)
 
 	//显示摄像机信息
 	formatRect.bottom -= 100;
-	//	LPCSTR info = "info\nhaha";
 	char info[500];
 
 	D3DXVECTOR3 vPos , vTar , vRig , vUp ,vLook;
@@ -1168,33 +1123,33 @@ void HelpText_Render(HWND hwnd)
 	g_pTextInfor->DrawTextA(NULL,info,-1,&formatRect , DT_BOTTOM|DT_LEFT ,D3DXCOLOR(255.0f,255.0f,255.0,1.0f));
 
 	//动画轨道信息
-/*	D3DXVECTOR3 heroPos , tarPos;
+	/*	D3DXVECTOR3 heroPos , tarPos;
 	g_vCharacter[g_userIndex]->getPosition(&heroPos);
 	g_vCharacter[g_userIndex]->getTargetPosition(&tarPos);
 	char cTrack[500];
 	if(g_vCharacter.size() > 0)
-		sprintf(cTrack , "walk : 3\n\
-						 run : 0\n\
-						 idle : 2\n\
-						 attack : 1\n\
-						 currentTrack: %d \n\
-						 currentAnim: %d \n\
-						 heroHeight:  %.1f\n\
-						 heroPos:    %.1f    %.1f    %.1f \n\
-						 tarPos:     %.1f    %.1f    %.1f \n\
-						 facing:      %.3f \n\
-						 facingTarget:      %.3f", 
-						 g_vCharacter[g_userIndex]->getCurrentTrack(),
-						 g_vCharacter[g_userIndex]->getCurrentAnim(),
-						 g_pTerrain ->getPositionHeight(heroPos / 100),
-						 heroPos.x , heroPos.y , heroPos.z,
-						 tarPos.x,tarPos.y,tarPos.z,
-						 g_vCharacter[g_userIndex]->facing, 
-						 g_vCharacter[g_userIndex]->facingTarget 
-						 );
+	sprintf(cTrack , "walk : 3\n\
+	run : 0\n\
+	idle : 2\n\
+	attack : 1\n\
+	currentTrack: %d \n\
+	currentAnim: %d \n\
+	heroHeight:  %.1f\n\
+	heroPos:    %.1f    %.1f    %.1f \n\
+	tarPos:     %.1f    %.1f    %.1f \n\
+	facing:      %.3f \n\
+	facingTarget:      %.3f", 
+	g_vCharacter[g_userIndex]->getCurrentTrack(),
+	g_vCharacter[g_userIndex]->getCurrentAnim(),
+	g_pTerrain ->getPositionHeight(heroPos / 100),
+	heroPos.x , heroPos.y , heroPos.z,
+	tarPos.x,tarPos.y,tarPos.z,
+	g_vCharacter[g_userIndex]->facing, 
+	g_vCharacter[g_userIndex]->facingTarget 
+	);
 
 	g_pTextHelper ->DrawTextA(NULL,cTrack,-1,&formatRect , DT_BOTTOM|DT_RIGHT ,D3DXCOLOR(1.0f,0.5f,0.0f,1.0f));
-*/
+	*/
 	formatRect.right -= 50;
 	extern  int totalHpForHero[15];
 	char cTrack[500];
